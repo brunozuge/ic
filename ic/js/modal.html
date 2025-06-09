@@ -1,0 +1,49 @@
+<!-- Modal de Edição - Adicione antes do fechamento do </body> -->
+<div id="edit-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Editar Brechó</h2>
+            <span class="close" onclick="closeEditModal()">&times;</span>
+        </div>
+        
+        <form id="edit-brecho-form">
+            <div class="form-group">
+                <label for="edit-nome">Nome do Brechó</label>
+                <input type="text" id="edit-nome" name="edit-nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-endereco">Endereço</label>
+                <input type="text" id="edit-endereco" name="edit-endereco" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-cidade">Cidade</label>
+                <input type="text" id="edit-cidade" name="edit-cidade" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-telefone">Telefone</label>
+                <input type="tel" id="edit-telefone" name="edit-telefone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-descricao">Descrição</label>
+                <textarea id="edit-descricao" name="edit-descricao" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Roupas</label>
+                <div id="edit-roupas-container">
+                    <!-- Roupas serão adicionadas aqui dinamicamente -->
+                </div>
+                <button type="button" class="add-btn" onclick="addEditRoupa()">+ Adicionar Roupa</button>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancelar</button>
+                <button type="submit" class="save-btn">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+</div>

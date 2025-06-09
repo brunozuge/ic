@@ -1,0 +1,1215 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brechós dos Vales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(30, 30, 50, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(45deg, #7b8fe8, #8a5bb8);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            box-shadow: 0 6px 25px rgba(78, 205, 196, 0.4);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brechos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .brecho-card {
+            background: rgba(40, 40, 60, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .brecho-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .brecho-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .brecho-location {
+            color: #b0b0b0;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .roupas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .roupa-item {
+            background: rgba(60, 60, 80, 0.8);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .roupa-item:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+            background: rgba(70, 70, 90, 0.9);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .roupa-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .roupa-nome {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .roupa-preco {
+            color: #4ecdc4;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .form-container {
+            background: rgba(40, 40, 60, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: rgba(60, 60, 80, 0.8);
+            color: #ffffff;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #aaaaaa;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(45deg, #7b8fe8, #8a5bb8);
+        }
+
+        .success-message {
+            background: rgba(40, 167, 69, 0.2);
+            color: #4ecdc4;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .roupas-form {
+            background: rgba(50, 50, 70, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .roupa-form-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 15px;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+
+        .add-roupa-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .add-roupa-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .roupa-form-item {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        /* Estilos para os botões de ação nos cards */
+.brecho-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.brecho-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 100px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.edit-btn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.edit-btn:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-1px);
+}
+
+.delete-btn {
+    background: linear-gradient(135deg, #f44336, #da190b);
+    color: white;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #da190b, #c62828);
+    transform: translateY(-1px);
+}
+
+/* Estilos do Modal */
+ /* Estilos do Modal - Tema Escuro */
+ /* Estilos do Modal - Tema Escuro */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #2a2a40 0%, #1e1e2e 50%, #16213e 100%);
+    padding: 0;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px 20px 0 0;
+    backdrop-filter: blur(15px);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.6em;
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close:hover {
+    color: #ff4757;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.modal-content form {
+    padding: 30px;
+    background: rgba(40, 40, 60, 0.9);
+    border-radius: 0 0 20px 20px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1.1em;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px 18px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    background: rgba(60, 60, 80, 0.8);
+    color: #ffffff;
+    backdrop-filter: blur(10px);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+    background: rgba(70, 70, 90, 0.9);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #aaaaaa;
+}
+
+.roupa-form-item {
+    background: rgba(50, 50, 70, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.roupa-form-item:hover {
+    border-color: rgba(102, 126, 234, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.roupa-form-item > div {
+    margin-bottom: 15px;
+}
+
+.roupa-form-item > div:last-of-type {
+    margin-bottom: 0;
+}
+
+.add-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8, #6a4190);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.remove-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+}
+
+.remove-btn:hover {
+    background: linear-gradient(135deg, #ee5a52, #e04848);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+}
+
+.form-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.cancel-btn:hover {
+    background: linear-gradient(135deg, #5a6268, #495057);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.5);
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.save-btn:hover {
+    background: linear-gradient(135deg, #20c997, #17a2b8);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(32, 201, 151, 0.5);
+}
+
+/* Personalização da barra de rolagem do modal */
+.modal-content::-webkit-scrollbar {
+    width: 12px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(30, 30, 50, 0.8);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+    border: 2px solid rgba(30, 30, 50, 0.8);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7b8fe8, #8a5bb8);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+}
+
+.modal-content::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(135deg, #5a6fd8, #6a4190);
+}
+
+/* Para Firefox */
+.modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: #667eea rgba(30, 30, 50, 0.8);
+}
+
+/* Responsividade para o modal */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .modal-header {
+        padding: 20px 25px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.4em;
+    }
+    
+    .modal-content form {
+        padding: 25px 20px;
+    }
+    
+    .brecho-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .brecho-actions {
+        flex-direction: row;
+        align-self: stretch;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .cancel-btn,
+    .save-btn {
+        width: 100%;
+        padding: 18px;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        padding: 12px 15px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <header>
+            <h1>🛍️ Brechós dos Vales</h1>
+            <p class="subtitle">Descubra as melhores peças de segunda mão da região dos vales</p>
+        </header>
+
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showSection('brechos')">Ver Brechós</button>
+            <button class="nav-btn" onclick="showSection('cadastro')">Cadastrar Brechó</button>
+        </div>
+
+        <div id="brechos-section" class="section active">
+            <div class="brechos-grid" id="brechos-container">
+                <!-- Brechós serão carregados aqui -->
+            </div>
+        </div>
+
+        <div id="cadastro-section" class="section">
+            <div class="form-container">
+                <h2 style="color: #ffffff; margin-bottom: 30px; text-align: center;">Cadastre seu Brechó</h2>
+                <form id="brecho-form">
+                    <div class="form-group">
+                        <label for="nome">Nome do Brechó</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endereco">Endereço</label>
+                        <input type="text" id="endereco" name="endereco" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cidade">Cidade (Região dos Vales)</label>
+                        <select id="cidade" name="cidade" required>
+                            <option value="">Selecione a cidade</option>
+                            <option value="São José dos Campos">São José dos Campos</option>
+                            <option value="Taubaté">Taubaté</option>
+                            <option value="Jacareí">Jacareí</option>
+                            <option value="Pindamonhangaba">Pindamonhangaba</option>
+                            <option value="Guaratinguetá">Guaratinguetá</option>
+                            <option value="Caçapava">Caçapava</option>
+                            <option value="Lorena">Lorena</option>
+                            <option value="Cruzeiro">Cruzeiro</option>
+                            <option value="Aparecida">Aparecida</option>
+                            <option value="Campos do Jordão">Campos do Jordão</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao">Descrição do Brechó</label>
+                        <textarea id="descricao" name="descricao" rows="4"></textarea>
+                    </div>
+
+                    <div class="roupas-form">
+                        <h3 style="margin-bottom: 20px; color: #ffffff;">Adicione as Roupas</h3>
+                        <div id="roupas-container">
+                            <div class="roupa-form-item">
+                                <div>
+                                    <label>Nome da Peça</label>
+                                    <input type="text" name="roupa-nome" placeholder="Ex: Vestido Floral" required>
+                                </div>
+                                <div>
+                                    <label>Preço (R$)</label>
+                                    <input type="number" name="roupa-preco" placeholder="25.00" step="0.01" required>
+                                </div>
+                                <div>
+                                    <label>URL da Imagem</label>
+                                    <input type="url" name="roupa-imagem" placeholder="https://exemplo.com/imagem.jpg" required>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeRoupa(this)">Remover</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-roupa-btn" onclick="addRoupa()">+ Adicionar Roupa</button>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Cadastrar Brechó</button>
+                </form>
+                <div id="success-message" class="success-message">
+                    Brechó cadastrado com sucesso! ✅
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+   
+// Função para carregar brechós do localStorage
+function loadBrechos() {
+    const savedBrechos = localStorage.getItem('brechos');
+    if (savedBrechos) {
+        return JSON.parse(savedBrechos);
+    }
+    // Retorna dados iniciais se não houver nada salvo
+    return [
+        {
+            id: 1,
+            nome: "Brechó da Maria",
+            endereco: "Rua das Flores, 123",
+            cidade: "Santa Cruz do Sul",
+            telefone: "(51) 9999-8888",
+            descricao: "Peças vintage e modernas com preços acessíveis",
+            roupas: [
+                {
+                    nome: "Vestido Floral",
+                    preco: 45.00,
+                    imagem: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=200&h=300&fit=crop"
+                },
+                {
+                    nome: "Blusa Vintage",
+                    preco: 25.00,
+                    imagem: "https://images.unsplash.com/photo-1564584217132-2271339881b4?w=200&h=300&fit=crop"
+                }
+            ]
+        },
+        {
+            id: 2,
+            nome: "Closet Sustentável",
+            endereco: "Av. Central, 456",
+            cidade: "Santa Cruz do Sul",
+            telefone: "(51) 8877-6655",
+            descricao: "Moda consciente e sustentável para todos os estilos",
+            roupas: [
+                {
+                    nome: "Jaqueta Jeans",
+                    preco: 35.00,
+                    imagem: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200&h=300&fit=crop"
+                },
+                {
+                    nome: "Saia Midi",
+                    preco: 30.00,
+                    imagem: "https://images.unsplash.com/photo-1583496661160-fb5886a13d77?w=200&h=300&fit=crop"
+                }
+            ]
+        }
+    ];
+}
+
+// Função para salvar brechós no localStorage
+function saveBrechos() {
+    localStorage.setItem('brechos', JSON.stringify(brechos));
+}
+
+// Inicializar brechós com dados do localStorage
+let brechos = loadBrechos();
+
+function showSection(sectionName) {
+    // Ocultar todas as seções
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Remover classe active de todos os botões
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Mostrar seção selecionada
+    document.getElementById(sectionName + '-section').classList.add('active');
+    
+    // Adicionar classe active ao botão clicado
+    event.target.classList.add('active');
+}
+
+// Função para renderizar brechós
+function renderBrechos() {
+    const container = document.getElementById('brechos-container');
+    if (!container) return; // Verifica se o elemento existe
+    
+    container.innerHTML = '';
+
+    brechos.forEach(brecho => {
+        const card = document.createElement('div');
+        card.className = 'brecho-card';
+        
+        const roupasHtml = brecho.roupas.map(roupa => `
+            <div class="roupa-item">
+                <img src="${roupa.imagem}" alt="${roupa.nome}" class="roupa-img">
+                <div class="roupa-nome">${roupa.nome}</div>
+                <div class="roupa-preco">R$ ${roupa.preco.toFixed(2)}</div>
+            </div>
+        `).join('');
+
+        card.innerHTML = `
+            <div class="brecho-header">
+                <div>
+                    <div class="brecho-name">${brecho.nome}</div>
+                    <div class="brecho-location">📍 ${brecho.endereco}, ${brecho.cidade}</div>
+                    <div style="color: #b0b0b0; margin-bottom: 10px;">📞 ${brecho.telefone}</div>
+                    <div style="color: #b0b0b0; margin-bottom: 20px; font-style: italic;">${brecho.descricao}</div>
+                </div>
+                <div class="brecho-actions">
+                    <button class="edit-btn" onclick="editBrecho(${brecho.id})">✏️ Editar</button>
+                    <button class="delete-btn" onclick="deleteBrecho(${brecho.id})">🗑️ Excluir</button>
+                </div>
+            </div>
+            <div class="roupas-grid">
+                ${roupasHtml}
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+}
+
+// Função para adicionar nova roupa no formulário
+function addRoupa() {
+    const container = document.getElementById('roupas-container');
+    const newItem = document.createElement('div');
+    newItem.className = 'roupa-form-item';
+    newItem.innerHTML = `
+        <div>
+            <label>Nome da Peça</label>
+            <input type="text" name="roupa-nome" placeholder="Ex: Vestido Floral" required>
+        </div>
+        <div>
+            <label>Preço (R$)</label>
+            <input type="number" name="roupa-preco" placeholder="25.00" step="0.01" required>
+        </div>
+        <div>
+            <label>URL da Imagem</label>
+            <input type="url" name="roupa-imagem" placeholder="https://exemplo.com/imagem.jpg" required>
+        </div>
+        <button type="button" class="remove-btn" onclick="removeRoupa(this)">Remover</button>
+    `;
+    container.appendChild(newItem);
+}
+
+// Função para remover roupa do formulário
+function removeRoupa(button) {
+    const container = document.getElementById('roupas-container');
+    if (container.children.length > 1) {
+        button.parentNode.remove();
+    }
+}
+
+// Função para gerar ID único
+function generateUniqueId() {
+    return brechos.length > 0 ? Math.max(...brechos.map(b => b.id)) + 1 : 1;
+}
+
+// Inicializar quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', function() {
+    // Renderizar brechós ao carregar a página
+    renderBrechos();
+    
+    // Configurar event listener do formulário
+    const form = document.getElementById('brecho-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const newBrecho = {
+                id: generateUniqueId(),
+                nome: formData.get('nome'),
+                endereco: formData.get('endereco'),
+                cidade: formData.get('cidade'),
+                telefone: formData.get('telefone'),
+                descricao: formData.get('descricao'),
+                roupas: []
+            };
+
+            // Coletar dados das roupas
+            const roupasNomes = formData.getAll('roupa-nome');
+            const roupasPrecos = formData.getAll('roupa-preco');
+            const roupasImagens = formData.getAll('roupa-imagem');
+
+            for (let i = 0; i < roupasNomes.length; i++) {
+                if (roupasNomes[i] && roupasPrecos[i] && roupasImagens[i]) {
+                    newBrecho.roupas.push({
+                        nome: roupasNomes[i],
+                        preco: parseFloat(roupasPrecos[i]),
+                        imagem: roupasImagens[i]
+                    });
+                }
+            }
+
+            // Adicionar novo brechó
+            brechos.push(newBrecho);
+            
+            // Salvar no localStorage
+            saveBrechos();
+            
+            // Mostrar mensagem de sucesso
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.display = 'block';
+            }
+            
+            // Limpar formulário
+            this.reset();
+            
+            // Resetar roupas para apenas uma
+            const roupasContainer = document.getElementById('roupas-container');
+            if (roupasContainer) {
+                roupasContainer.innerHTML = `
+                    <div class="roupa-form-item">
+                        <div>
+                            <label>Nome da Peça</label>
+                            <input type="text" name="roupa-nome" placeholder="Ex: Vestido Floral" required>
+                        </div>
+                        <div>
+                            <label>Preço (R$)</label>
+                            <input type="number" name="roupa-preco" placeholder="25.00" step="0.01" required>
+                        </div>
+                        <div>
+                            <label>URL da Imagem</label>
+                            <input type="url" name="roupa-imagem" placeholder="https://exemplo.com/imagem.jpg" required>
+                        </div>
+                        <button type="button" class="remove-btn" onclick="removeRoupa(this)">Remover</button>
+                    </div>
+                `;
+            }
+            
+            // Re-renderizar brechós
+            renderBrechos();
+            
+            // Ocultar mensagem após 3 segundos
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+    }
+});
+
+// Função adicional para limpar dados (útil para desenvolvimento/teste)
+function clearAllData() {
+    localStorage.removeItem('brechos');
+    brechos = loadBrechos();
+    renderBrechos();
+    console.log('Dados limpos e resetados para o padrão');
+}
+
+// Função para editar brechó
+function editBrecho(id) {
+    const brecho = brechos.find(b => b.id === id);
+    if (!brecho) return;
+    
+    // Preencher modal de edição
+    document.getElementById('edit-nome').value = brecho.nome;
+    document.getElementById('edit-endereco').value = brecho.endereco;
+    document.getElementById('edit-cidade').value = brecho.cidade;
+    document.getElementById('edit-telefone').value = brecho.telefone;
+    document.getElementById('edit-descricao').value = brecho.descricao;
+    
+    // Preencher roupas
+    const editRoupasContainer = document.getElementById('edit-roupas-container');
+    editRoupasContainer.innerHTML = '';
+    
+    brecho.roupas.forEach((roupa, index) => {
+        const roupaItem = document.createElement('div');
+        roupaItem.className = 'roupa-form-item';
+        roupaItem.innerHTML = `
+            <div>
+                <label>Nome da Peça</label>
+                <input type="text" name="edit-roupa-nome" value="${roupa.nome}" required>
+            </div>
+            <div>
+                <label>Preço (R$)</label>
+                <input type="number" name="edit-roupa-preco" value="${roupa.preco}" step="0.01" required>
+            </div>
+            <div>
+                <label>URL da Imagem</label>
+                <input type="url" name="edit-roupa-imagem" value="${roupa.imagem}" required>
+            </div>
+            <button type="button" class="remove-btn" onclick="removeEditRoupa(this)">Remover</button>
+        `;
+        editRoupasContainer.appendChild(roupaItem);
+    });
+    
+    // Se não há roupas, adicionar uma vazia
+    if (brecho.roupas.length === 0) {
+        addEditRoupa();
+    }
+    
+    // Mostrar modal e salvar ID do brechó sendo editado
+    document.getElementById('edit-modal').style.display = 'flex';
+    document.getElementById('edit-modal').dataset.brechoId = id;
+}
+
+// Função para excluir brechó
+function deleteBrecho(id) {
+    if (confirm('Tem certeza que deseja excluir este brechó?')) {
+        brechos = brechos.filter(b => b.id !== id);
+        saveBrechos();
+        renderBrechos();
+    }
+}
+
+// Função para fechar modal de edição
+function closeEditModal() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
+// Função para adicionar roupa no modal de edição
+function addEditRoupa() {
+    const container = document.getElementById('edit-roupas-container');
+    const newItem = document.createElement('div');
+    newItem.className = 'roupa-form-item';
+    newItem.innerHTML = `
+        <div>
+            <label>Nome da Peça</label>
+            <input type="text" name="edit-roupa-nome" placeholder="Ex: Vestido Floral" required>
+        </div>
+        <div>
+            <label>Preço (R$)</label>
+            <input type="number" name="edit-roupa-preco" placeholder="25.00" step="0.01" required>
+        </div>
+        <div>
+            <label>URL da Imagem</label>
+            <input type="url" name="edit-roupa-imagem" placeholder="https://exemplo.com/imagem.jpg" required>
+        </div>
+        <button type="button" class="remove-btn" onclick="removeEditRoupa(this)">Remover</button>
+    `;
+    container.appendChild(newItem);
+}
+
+// Função para remover roupa do modal de edição
+function removeEditRoupa(button) {
+    const container = document.getElementById('edit-roupas-container');
+    if (container.children.length > 1) {
+        button.parentNode.remove();
+    }
+}
+
+// Event listener para o modal de edição
+document.addEventListener('DOMContentLoaded', function() {
+    // ... código anterior ...
+    
+    // Configurar event listener do formulário de edição
+    const editForm = document.getElementById('edit-brecho-form');
+    if (editForm) {
+        editForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const brechoId = parseInt(document.getElementById('edit-modal').dataset.brechoId);
+            const brechoIndex = brechos.findIndex(b => b.id === brechoId);
+            
+            if (brechoIndex === -1) return;
+            
+            const formData = new FormData(this);
+            
+            // Atualizar dados do brechó
+            brechos[brechoIndex].nome = formData.get('edit-nome');
+            brechos[brechoIndex].endereco = formData.get('edit-endereco');
+            brechos[brechoIndex].cidade = formData.get('edit-cidade');
+            brechos[brechoIndex].telefone = formData.get('edit-telefone');
+            brechos[brechoIndex].descricao = formData.get('edit-descricao');
+            
+            // Atualizar roupas
+            brechos[brechoIndex].roupas = [];
+            const roupasNomes = formData.getAll('edit-roupa-nome');
+            const roupasPrecos = formData.getAll('edit-roupa-preco');
+            const roupasImagens = formData.getAll('edit-roupa-imagem');
+            
+            for (let i = 0; i < roupasNomes.length; i++) {
+                if (roupasNomes[i] && roupasPrecos[i] && roupasImagens[i]) {
+                    brechos[brechoIndex].roupas.push({
+                        nome: roupasNomes[i],
+                        preco: parseFloat(roupasPrecos[i]),
+                        imagem: roupasImagens[i]
+                    });
+                }
+            }
+            
+            // Salvar e atualizar interface
+            saveBrechos();
+            renderBrechos();
+            closeEditModal();
+            
+            // Mostrar mensagem de sucesso
+            alert('Brechó atualizado com sucesso!');
+        });
+    }
+    
+    // Fechar modal ao clicar fora dele
+    window.addEventListener('click', function(e) {
+        const modal = document.getElementById('edit-modal');
+        if (e.target === modal) {
+            closeEditModal();
+        }
+    });
+});
+    </script>
+    <!-- Modal de Edição - Adicione antes do fechamento do </body> -->
+<div id="edit-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Editar Brechó</h2>
+            <span class="close" onclick="closeEditModal()">&times;</span>
+        </div>
+        
+        <form id="edit-brecho-form">
+            <div class="form-group">
+                <label for="edit-nome">Nome do Brechó</label>
+                <input type="text" id="edit-nome" name="edit-nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-endereco">Endereço</label>
+                <input type="text" id="edit-endereco" name="edit-endereco" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-cidade">Cidade</label>
+                <input type="text" id="edit-cidade" name="edit-cidade" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-telefone">Telefone</label>
+                <input type="tel" id="edit-telefone" name="edit-telefone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-descricao">Descrição</label>
+                <textarea id="edit-descricao" name="edit-descricao" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Roupas</label>
+                <div id="edit-roupas-container">
+                    <!-- Roupas serão adicionadas aqui dinamicamente -->
+                </div>
+                <button type="button" class="add-btn" onclick="addEditRoupa()">+ Adicionar Roupa</button>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancelar</button>
+                <button type="submit" class="save-btn">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+
